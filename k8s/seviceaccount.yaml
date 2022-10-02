@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: eks
+  namespace: default
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::216479454044:role/eks-cluster-demo

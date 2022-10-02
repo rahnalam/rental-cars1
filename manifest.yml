@@ -1,0 +1,5 @@
+applications:
+- name: RentalCars-t
+  memory: 1216M
+  instances: 1
+  path: target/RentalCars.war

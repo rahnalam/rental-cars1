@@ -1,0 +1,27 @@
+ip_address=""
+node(){
+stage("Git checkout"){
+
+checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/muraliphani/rentalcarsv1.git']]])
+
+
+}
+
+
+stage("Create ec2 instance"){
+  withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWSAccess', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+   def directory = "terraform"
+
+
+     dir(directory) {
+
+       sh "terraform init"
+	   sh "terraform apply -auto-approve"
+	   ip_address = sh(script: "terraform output ec2instance_ip", returnStdout: true).toString().trim()
+	   sh "echo ${ip_address}"
+
+     }
+     }
+
+}
+}

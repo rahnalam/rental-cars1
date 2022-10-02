@@ -1,0 +1,7 @@
+---
+- name: Install tomcat
+  hosts: web_grp
+  become: yes
+
+  roles:
+  - configure_tomcat

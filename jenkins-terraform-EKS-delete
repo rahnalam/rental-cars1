@@ -1,0 +1,23 @@
+node(){
+
+   stage("Git Checkout"){
+   checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/muraliphani/RentalCars.git']]])
+
+   }
+
+   stage("Create EKS Cluster"){
+  withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWSAccess', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+   def directory = "terraform-EKS"
+
+
+     dir(directory) {
+
+       sh "terraform init"
+	   sh "terraform destroy -auto-approve"
+
+     }
+     }
+
+}
+
+  }
